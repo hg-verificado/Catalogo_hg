@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo y Vendedores</title>
+    <style>
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 16px; }
+        header { text-align: center; margin-bottom: 24px; }
+        h1 { font-size: 1.5rem; margin-bottom: 4px; color: var(--primary); }
+        h2 { font-size: 1.2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-top: 24px; }
+        .grid { display: flex; flex-direction: column; gap: 12px; }
+        .card { background: var(--card); padding: 14px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card h3 { margin: 0 0 6px 0; font-size: 1.1rem; }
+        .precio { color: #16a34a; font-weight: bold; font-size: 1.05rem; }
+        .tel { display: inline-block; margin-top: 8px; background: #25d366; color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Catálogo de Productos</h1>
+        <p>Consulta nuestros artículos y distribuidores autorizados</p>
+    </header>
+
+    <main>
+        <h2>Productos Disponibles</h2>
+        <div id="productos-container" class="grid">Cargando productos...</div>
+
+        <h2>Vendedores Autorizados</h2>
+        <div id="vendedores-container" class="grid">Cargando vendedores...</div>
+    </main>
+
+    <script>
+        fetch('datos.json')
+            .then(res => res.json())
+            .then(data => {
+                // Pintar Productos
+                const prodContainer = document.getElementById('productos-container');
+                prodContainer.innerHTML = '';
+                data.productos.forEach(p => {
+                    prodContainer.innerHTML += `
+                        <div class="card">
+                            <h3>${p.nombre}</h3>
+                            <p>${p.descripcion}</p>
+                            <div class="precio">${p.precio}</div>
+                        </div>
+                    `;
+                });
+
+                // Pintar Vendedores
+                const vendContainer = document.getElementById('vendedores-container');
+                vendContainer.innerHTML = '';
+                data.vendedores.forEach(v => {
+                    vendContainer.innerHTML += `
+                        <div class="card">
+                            <h3>${v.nombre}</h3>
+                            <p><strong>Zona:</strong> ${v.zona}</p>
+                            <a class="tel" href="tel:${v.telefono}">📞 Llamar / WhatsApp</a>
+                        </div>
+                    `;
+                });
+            })
+            .catch(err => {
+                document.getElementById('productos-container').innerHTML = '<p>Sube el archivo datos.json para ver la información.</p>';
+                document.getElementById('vendedores-container').innerHTML = '';
+            });
+    </script>
+</body>
+</html>
