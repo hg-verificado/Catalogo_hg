@@ -175,8 +175,8 @@
         let fotoRaw = s.foto || s.imagen || Object.values(s)[1] || '';
         let fotoId = limpiarLink(fotoRaw);
         let fotoUrl = fotoId ? 'https://drive.google.com/thumbnail?id=' + fotoId + '&sz=w1000' : 'https://via.placeholder.com/500?text=Socio';
-        let nombre = s.nombre || Object.values(s)[2] || 'Socio';
-        let ciudad = s.ciudad || Object.values(s)[3] || '';
+        let nombre = String(s.nombre || Object.values(s)[2] || 'Socio');
+        let ciudad = String(s.ciudad || Object.values(s)[3] || '');
 
         html += `
           <div class="socio-modal-card socio-item" data-nombre="${nombre.toLowerCase()}" data-ciudad="${ciudad.toLowerCase()}">
@@ -206,7 +206,7 @@
 
     function generarMenuChecks(datos) {
       let categorias = [...new Set(datos.map(p => {
-        return p.producto || p.categoria || p.linea || Object.values(p)[5] || 'General';
+        return String(p.producto || p.categoria || p.linea || Object.values(p)[5] || 'General');
       }))];
       
       let html = `
@@ -218,7 +218,7 @@
       `;
       categorias.forEach((cat, index) => {
         let count = datos.filter(p => {
-          let c = p.producto || p.categoria || p.linea || Object.values(p)[5] || 'General';
+          let c = String(p.producto || p.categoria || p.linea || Object.values(p)[5] || 'General');
           return c === cat;
         }).length;
         html += `
