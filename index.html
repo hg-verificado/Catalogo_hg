@@ -132,8 +132,8 @@
 
         let listLogos = dataLogo.logotipo || dataLogo.logotipos || [];
         if(listLogos.length > 0) {
-          let valoresLogo = Object.values(listLogos[0]);
-          let rawLogo = valoresLogo[1] || valoresLogo[0] || '';
+          let l = listLogos[0];
+          let rawLogo = l.imagen || l.url || l.imagenLogotipo || Object.values(l)[1] || '';
           let logoId = limpiarLink(rawLogo);
           if(logoId) {
             document.getElementById('contenedorLogoNavbar').innerHTML = `<img src="https://drive.google.com/thumbnail?id=${logoId}&sz=w300" alt="Logotipo" class="logo-marca">`;
@@ -172,11 +172,11 @@
       }
       let html = '';
       listaSocios.forEach(s => {
-        let valores = Object.values(s);
-        let fotoId = limpiarLink(valores[1] || valores[0] || '');
+        let fotoRaw = s.foto || s.imagen || Object.values(s)[1] || '';
+        let fotoId = limpiarLink(fotoRaw);
         let fotoUrl = fotoId ? 'https://drive.google.com/thumbnail?id=' + fotoId + '&sz=w1000' : 'https://via.placeholder.com/500?text=Socio';
-        let nombre = valores[2] || 'Socio';
-        let ciudad = valores[3] || '';
+        let nombre = s.nombre || Object.values(s)[2] || 'Socio';
+        let ciudad = s.ciudad || Object.values(s)[3] || '';
 
         html += `
           <div class="socio-modal-card socio-item" data-nombre="${nombre.toLowerCase()}" data-ciudad="${ciudad.toLowerCase()}">
@@ -205,9 +205,8 @@
     }
 
     function generarMenuChecks(datos) {
-      let lineas = [...new Set(datos.map(p => {
-        let valores = Object.values(p);
-        return valores[5] || 'General'; // Columna F: Producto / Categoría
+      let categorias = [...new Set(datos.map(p => {
+        return p.producto || p.categoria || p.linea || Object.values(p)[5] || 'General';
       }))];
       
       let html = `
@@ -217,15 +216,15 @@
         </div>
         <hr class="my-2">
       `;
-      lineas.forEach((l, index) => {
+      categorias.forEach((cat, index) => {
         let count = datos.filter(p => {
-          let valores = Object.values(p);
-          return (valores[5] || 'General') === l;
+          let c = p.producto || p.categoria || p.linea || Object.values(p)[5] || 'General';
+          return c === cat;
         }).length;
         html += `
           <div class="form-check mb-1">
-            <input class="form-check-input check-filtro" type="checkbox" value="${l}" id="check-${index}" onchange="aplicarFiltros()">
-            <label class="form-check-label small" for="check-${index}">${l} (${count})</label>
+            <input class="form-check-input check-filtro" type="checkbox" value="${cat}" id="check-${index}" onchange="aplicarFiltros()">
+            <label class="form-check-label small" for="check-${index}">${cat} (${count})</label>
           </div>
         `;
       });
@@ -242,9 +241,8 @@
       else chkTodos.checked = false;
 
       let filtrados = inventario.filter(prod => {
-        let valores = Object.values(prod);
-        let nombreProd = String(valores[1] || '').toLowerCase(); // Columna B: Nombre
-        let catProd = String(valores[5] || 'General'); // Columna F: Categoría
+        let nombreProd = String(prod.nombreProducto || prod.nombre || Object.values(prod)[1] || '').toLowerCase();
+        let catProd = String(prod.producto || prod.categoria || prod.linea || Object.values(prod)[5] || 'General');
         let coincideTexto = nombreProd.includes(textoBuscador);
         let coincideCategoria = chkTodos.checked || seleccionados.includes(catProd);
         return coincideTexto && coincideCategoria;
@@ -261,15 +259,14 @@
       }
       let html = '';
       lista.forEach(prod => {
-        let valores = Object.values(prod);
-        let rawImg = valores[0] || ''; // Columna A: Imagen
+        let rawImg = prod.imagenProducto || prod.imagen || prod.foto || Object.values(prod)[0] || '';
         let imgId = limpiarLink(rawImg);
         let imgUrl = imgId ? 'https://drive.google.com/thumbnail?id=' + imgId + '&sz=w500' : 'https://via.placeholder.com/400?text=Sin+Foto';
         
-        let nombre = valores[1] || 'Sin nombre'; // Columna B: Nombre
-        let detalles = valores[2] || ''; // Columna C: Detalles
-        let par = darFormatoDinero(valores[3] || 0); // Columna D: Precio Par
-        let bulto = darFormatoDinero(valores[4] || 0); // Columna E: Precio Bulto
+        let nombre = prod.nombreProducto || prod.nombre || Object.values(prod)[1] || 'Sin nombre';
+        let detalles = prod.detallesProducto || prod.detalles || prod.descripcion || Object.values(prod)[2] || '';
+        let par = darFormatoDinero(prod.precioPorPar || prod.precioPar || prod.precio || Object.values(prod)[3] || 0);
+        let bulto = darFormatoDinero(prod.precioBulto || prod.bulto || Object.values(prod)[4] || 0);
         let msj = `Hola, quiero apartar bultos del modelo: ${nombre}. Inversión: ${bulto}.`;
         
         html += `
