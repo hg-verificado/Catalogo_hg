@@ -9,7 +9,7 @@
   <style>
     body { background-color: #ffffff !important; color: #111827 !important; font-family: system-ui, -apple-system, sans-serif !important; }
     .navbar-tienda { background-color: #00479b !important; padding: 12px 24px !important; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .logo-marca { height: 40px; max-width: 140px; object-fit: contain; background: white; padding: 2px 6px; border-radius: 4px; }
+    .marca-texto { color: #ffffff; font-weight: 900; font-size: 1.15rem; letter-spacing: 0.5px; text-decoration: none; white-space: nowrap; }
     .search-box { width: 100%; padding: 10px 18px; border-radius: 4px; border: none; font-size: 0.95rem; background-color: #ffffff; color: #111827; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; }
     .search-box::placeholder { text-align: center; }
     .sidebar-filtros { border-right: 1px solid #e5e7eb; padding-right: 20px; background-color: #ffffff; }
@@ -40,10 +40,9 @@
   <div class="navbar-tienda d-flex align-items-center">
     <div class="container-fluid px-0">
       <div class="row align-items-center justify-content-between">
-        <div class="col-auto pe-2" id="contenedorLogoNavbar">
-          <span class="text-white fw-bold fs-5 px-2">MAYORISTA</span>
+        <div class="col-auto pe-2">
+          <span class="marca-texto">GRUPO HG MAYORISTA</span>
         </div>
-        <!-- BUSCADOR CENTRADO -->
         <div class="col-12 col-md-6 col-lg-5 mx-auto mb-2 mb-md-0">
           <input type="text" id="buscador" class="search-box form-control" placeholder="🔍 Buscar modelos, marcas..." onkeyup="aplicarFiltros()">
         </div>
@@ -62,7 +61,6 @@
           <div class="text-muted mt-1" style="font-size: 0.78rem;">Valida rostros y entregas</div>
         </div>
 
-        <!-- INSIGNIA SPEI GARANTIZADO -->
         <div class="card-spei-sidebar">
           <div class="text-primary fw-bold" style="font-size: 0.85rem;"><i class="bi bi-shield-lock-fill fs-5"></i> SPEI GARANTIZADO</div>
           <div class="text-muted mt-1" style="font-size: 0.72rem;">Transferencias seguras y validadas al instante</div>
@@ -73,7 +71,6 @@
       </aside>
 
       <main class="col-12 col-lg-9 col-xl-10">
-        <!-- FRANJA DE PAQUETERÍAS -->
         <div class="franja-paqueterias">
           <div class="franja-titulo-limpio">
             <i class="bi bi-shield-fill-check text-primary fs-6"></i> Envíos seguros y garantizados a todo México con cobertura oficial:
@@ -130,25 +127,13 @@
 
     window.onload = async function() {
       try {
-        const [resLogo, resProd, resSoc] = await Promise.all([
-          fetch(BASE_URL + "/logotipo"),
+        const [resProd, resSoc] = await Promise.all([
           fetch(BASE_URL + "/productos"),
           fetch(BASE_URL + "/sociosVerificados")
         ]);
         
-        const dataLogo = await resLogo.json();
         const dataProd = await resProd.json();
         const dataSoc = await resSoc.json();
-
-        let listLogos = dataLogo.logotipo || dataLogo.logotipos || [];
-        if(listLogos.length > 0) {
-          let l = listLogos[0];
-          let rawLogo = l.imagen || l.url || l.imagenLogotipo || Object.values(l)[1] || '';
-          let logoId = limpiarLink(rawLogo);
-          if(logoId) {
-            document.getElementById('contenedorLogoNavbar').innerHTML = `<img src="https://drive.google.com/thumbnail?id=${logoId}&sz=w300" alt="Logotipo" class="logo-marca">`;
-          }
-        }
 
         inventario = dataProd.productos || dataProd.producto || [];
         socios = dataSoc.sociosVerificados || dataSoc.sociosVerificado || [];
