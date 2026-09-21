@@ -13,7 +13,8 @@
     .search-box { width: 100%; padding: 10px 18px; border-radius: 4px; border: none; font-size: 0.95rem; background-color: #ffffff; color: #111827; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     .sidebar-filtros { border-right: 1px solid #e5e7eb; padding-right: 20px; background-color: #ffffff; }
     .seccion-titulo { font-size: 0.8rem; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
-    .btn-socio-verificado { background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px; padding: 16px 14px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; display: block; text-decoration: none; box-shadow: 0 2px 5px rgba(16, 185, 129, 0.1); }
+    .btn-socio-verificado { background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px; padding: 16px 14px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 16px; display: block; text-decoration: none; box-shadow: 0 2px 5px rgba(16, 185, 129, 0.1); }
+    .card-spei-sidebar { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 12px; text-align: center; margin-bottom: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
     .franja-paqueterias { background-color: #ffffff; border-bottom: 2px solid #f3f4f6; padding: 12px 0 18px 0; margin-bottom: 24px; }
     .franja-titulo-limpio { font-size: 0.8rem; font-weight: 800; color: #4b5563; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 12px; letter-spacing: 0.3px; }
     .grid-logos-limpios { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; align-items: center; justify-items: center; }
@@ -58,6 +59,13 @@
           <div class="text-success fw-bold" style="font-size: 0.9rem;"><i class="bi bi-patch-check-fill fs-5"></i> SOCIOS VERIFICADOS</div>
           <div class="text-muted mt-1" style="font-size: 0.78rem;">Valida rostros y entregas</div>
         </div>
+
+        <!-- INSIGNIA SPEI GARANTIZADO -->
+        <div class="card-spei-sidebar">
+          <div class="text-primary fw-bold" style="font-size: 0.85rem;"><i class="bi bi-shield-lock-fill fs-5"></i> SPEI GARANTIZADO</div>
+          <div class="text-muted mt-1" style="font-size: 0.72rem;">Transferencias seguras y validadas al instante</div>
+        </div>
+
         <div class="seccion-titulo">Filtrar por Categoría</div>
         <div id="menuFiltrosDinamicos"></div>
       </aside>
@@ -242,7 +250,7 @@
 
       let filtrados = inventario.filter(prod => {
         let nombreProd = String(prod.nombreProducto || prod.nombre || Object.values(prod)[1] || '').toLowerCase();
-        let catProd = String(prod.producto || prod.categoria || prod.linea || Object.values(prod)[5] || 'General');
+        let catProd = String(prod.producto || prod.categoria || prod.linea || Object.values(p)[5] || 'General');
         let coincideTexto = nombreProd.includes(textoBuscador);
         let coincideCategoria = chkTodos.checked || seleccionados.includes(catProd);
         return coincideTexto && coincideCategoria;
