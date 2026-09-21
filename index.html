@@ -1,71 +1,306 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo y Vendedores</title>
-    <style>
-        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; --text: #1e293b; }
-        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 16px; }
-        header { text-align: center; margin-bottom: 24px; }
-        h1 { font-size: 1.5rem; margin-bottom: 4px; color: var(--primary); }
-        h2 { font-size: 1.2rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 6px; margin-top: 24px; }
-        .grid { display: flex; flex-direction: column; gap: 12px; }
-        .card { background: var(--card); padding: 14px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .card h3 { margin: 0 0 6px 0; font-size: 1.1rem; }
-        .precio { color: #16a34a; font-weight: bold; font-size: 1.05rem; }
-        .tel { display: inline-block; margin-top: 8px; background: #25d366; color: white; padding: 6px 12px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Catálogo Mayorista | Suministro Premium</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <style>
+    body { background-color: #ffffff !important; color: #111827 !important; font-family: system-ui, -apple-system, sans-serif !important; }
+    .navbar-tienda { background-color: #00479b !important; padding: 12px 24px !important; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .logo-marca { height: 40px; max-width: 140px; object-fit: contain; background: white; padding: 2px 6px; border-radius: 4px; }
+    .search-box { width: 100%; padding: 10px 18px; border-radius: 4px; border: none; font-size: 0.95rem; background-color: #ffffff; color: #111827; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .sidebar-filtros { border-right: 1px solid #e5e7eb; padding-right: 20px; background-color: #ffffff; }
+    .seccion-titulo { font-size: 0.8rem; font-weight: 800; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+    .btn-socio-verificado { background: #f0fdf4; border: 2px solid #86efac; border-radius: 8px; padding: 16px 14px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; display: block; text-decoration: none; box-shadow: 0 2px 5px rgba(16, 185, 129, 0.1); }
+    .franja-paqueterias { background-color: #ffffff; border-bottom: 2px solid #f3f4f6; padding: 12px 0 18px 0; margin-bottom: 24px; }
+    .franja-titulo-limpio { font-size: 0.8rem; font-weight: 800; color: #4b5563; text-transform: uppercase; display: flex; align-items: center; gap: 6px; margin-bottom: 12px; letter-spacing: 0.3px; }
+    .grid-logos-limpios { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; align-items: center; justify-items: center; }
+    @media (max-width: 992px) { .grid-logos-limpios { grid-template-columns: repeat(3, 1fr); gap: 15px; } }
+    .logo-flotante { background: transparent; border: none; padding: 0; height: 60px; display: flex; align-items: center; justify-content: center; width: 100%; }
+    .logo-flotante img { height: 50px; max-width: 100%; object-fit: contain; }
+    .card-prod { background: #ffffff !important; border: 1px solid #e5e7eb !important; border-radius: 6px !important; display: flex; flex-direction: column; height: 100%; padding: 14px; }
+    .img-box { background: #ffffff !important; height: 210px !important; display: flex; align-items: center; justify-content: center; padding: 10px; margin-bottom: 10px; }
+    .img-box img { max-height: 100%; max-width: 100%; object-fit: contain; }
+    .titulo { font-size: 0.95rem !important; font-weight: 700 !important; color: #1f2937 !important; height: 2.6em; overflow: hidden; }
+    .desc { font-size: 0.75rem !important; color: #6b7280 !important; margin-bottom: 10px; }
+    .precio-par { font-size: 1.25rem !important; font-weight: 900 !important; color: #00479b !important; }
+    .precio-bulto-limpio { font-size: 1.1rem; font-weight: 900; color: #047857; }
+    .btn-wa-limpio { background-color: #25d366 !important; color: white !important; border: none; border-radius: 4px; padding: 11px; width: 100%; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .socio-modal-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .socio-modal-img-container { width: 100%; height: 320px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 4px solid #10b981; }
+    .socio-modal-img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Catálogo de Productos</h1>
-        <p>Consulta nuestros artículos y distribuidores autorizados</p>
-    </header>
+  <div class="navbar-tienda d-flex align-items-center">
+    <div class="container-fluid px-0">
+      <div class="row align-items-center justify-content-between">
+        <div class="col-auto pe-2" id="contenedorLogoNavbar">
+          <span class="text-white fw-bold fs-5 px-2">MAYORISTA</span>
+        </div>
+        <div class="col-12 col-md-6 col-lg-5 mb-2 mb-md-0">
+          <input type="text" id="buscador" class="search-box form-control" placeholder="🔍 Buscar modelos, marcas..." onkeyup="aplicarFiltros()">
+        </div>
+        <div class="col-auto text-end text-white small fw-bold d-none d-md-block">
+          <i class="bi bi-shield-check text-success fs-6"></i> Red Mayorista Verificada | Atención Directa
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <main>
-        <h2>Productos Disponibles</h2>
-        <div id="productos-container" class="grid">Cargando productos...</div>
+  <div class="container-fluid py-4 px-xl-4">
+    <div class="row">
+      <aside class="col-12 col-lg-3 col-xl-2 d-none d-lg-block sidebar-filtros">
+        <div class="btn-socio-verificado" data-bs-toggle="modal" data-bs-target="#modalSocios">
+          <div class="text-success fw-bold" style="font-size: 0.9rem;"><i class="bi bi-patch-check-fill fs-5"></i> SOCIOS VERIFICADOS</div>
+          <div class="text-muted mt-1" style="font-size: 0.78rem;">Valida rostros y entregas</div>
+        </div>
+        <div class="seccion-titulo">Filtrar por Categoría</div>
+        <div id="menuFiltrosDinamicos"></div>
+      </aside>
 
-        <h2>Vendedores Autorizados</h2>
-        <div id="vendedores-container" class="grid">Cargando vendedores...</div>
-    </main>
+      <main class="col-12 col-lg-9 col-xl-10">
+        <!-- FRANJA DE PAQUETERÍAS -->
+        <div class="franja-paqueterias">
+          <div class="franja-titulo-limpio">
+            <i class="bi bi-shield-fill-check text-primary fs-6"></i> Envíos seguros y garantizados a todo México con cobertura oficial:
+          </div>
+          <div class="grid-logos-limpios">
+            <div class="logo-flotante" title="DHL"><img src="https://lh3.googleusercontent.com/d/1svmlzcbBEoqdx2Bu2kU2xTA2bwVsxaHe" alt="DHL"></div>
+            <div class="logo-flotante" title="Estafeta"><img src="https://lh3.googleusercontent.com/d/15dH8tKxcY7FoLY2rPd_-eq-9iCk22Lhl" alt="Estafeta"></div>
+            <div class="logo-flotante" title="FedEx"><img src="https://lh3.googleusercontent.com/d/1blXtnLekCsFbOYLucVoFwEwY3WC_gC10" alt="FedEx"></div>
+            <div class="logo-flotante" title="Paquetexpress"><img src="https://lh3.googleusercontent.com/d/1vr0gG1jtmKj8ovQ32xoi-O7RsdzCqm8i" alt="Paquetexpress"></div>
+            <div class="logo-flotante" title="Sendex"><img src="https://lh3.googleusercontent.com/d/1EStXMx3OSuAjRne0cQqpADCoScU8Ax6J" alt="Sendex"></div>
+            <div class="logo-flotante" title="UPS"><img src="https://lh3.googleusercontent.com/d/1kig86Xqkj4y1u-Ww7SVNDlUFCDrcxzt1" alt="UPS"></div>
+          </div>
+        </div>
 
-    <script>
-        fetch('datos.json')
-            .then(res => res.json())
-            .then(data => {
-                // Pintar Productos
-                const prodContainer = document.getElementById('productos-container');
-                prodContainer.innerHTML = '';
-                data.productos.forEach(p => {
-                    prodContainer.innerHTML += `
-                        <div class="card">
-                            <h3>${p.nombre}</h3>
-                            <p>${p.descripcion}</p>
-                            <div class="precio">${p.precio}</div>
-                        </div>
-                    `;
-                });
+        <div class="d-block d-lg-none mb-3">
+          <div class="btn-socio-verificado py-2" data-bs-toggle="modal" data-bs-target="#modalSocios">
+            <span class="text-success fw-bold small"><i class="bi bi-patch-check-fill"></i> VER SOCIOS Y DISTRIBUIDORES OFICIALES</span>
+          </div>
+        </div>
 
-                // Pintar Vendedores
-                const vendContainer = document.getElementById('vendedores-container');
-                vendContainer.innerHTML = '';
-                data.vendedores.forEach(v => {
-                    vendContainer.innerHTML += `
-                        <div class="card">
-                            <h3>${v.nombre}</h3>
-                            <p><strong>Zona:</strong> ${v.zona}</p>
-                            <a class="tel" href="tel:${v.telefono}">📞 Llamar / WhatsApp</a>
-                        </div>
-                    `;
-                });
-            })
-            .catch(err => {
-                document.getElementById('productos-container').innerHTML = '<p>Sube el archivo datos.json para ver la información.</p>';
-                document.getElementById('vendedores-container').innerHTML = '';
-            });
-    </script>
+        <div id="catalogo" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+          <div class="col-12 text-center py-5" id="cargando">
+            <div class="spinner-border text-primary" role="status"></div>
+            <h6 class="mt-3 fw-bold text-muted">Cargando inventario desde Sheety...</h6>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL DE SOCIOS -->
+  <div class="modal fade" id="modalSocios" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-dark text-white py-3">
+          <h5 class="modal-title fw-bold"><i class="bi bi-shield-fill-check text-success"></i> Directorio de Socios Autorizados</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body bg-light p-4">
+          <div class="mb-4">
+            <input type="text" id="buscadorSocios" class="form-control form-control-lg shadow-sm" placeholder="🔍 Buscar socio por nombre o ciudad..." onkeyup="filtrarSociosModal()">
+          </div>
+          <div id="listaSociosModal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let inventario = [];
+    let socios = [];
+    const BASE_URL = "https://api.sheety.co/45ce98894ad7dc0300d0737c325389f9/hgComercializadora";
+
+    window.onload = async function() {
+      try {
+        const [resLogo, resProd, resSoc] = await Promise.all([
+          fetch(BASE_URL + "/logotipo"),
+          fetch(BASE_URL + "/productos"),
+          fetch(BASE_URL + "/sociosVerificados")
+        ]);
+        
+        const dataLogo = await resLogo.json();
+        const dataProd = await resProd.json();
+        const dataSoc = await resSoc.json();
+
+        let listLogos = dataLogo.logotipo || dataLogo.logotipos || [];
+        if(listLogos.length > 0) {
+          let valoresLogo = Object.values(listLogos[0]);
+          let rawLogo = listLogos[0].imagen || listLogos[0].url || valoresLogo[1] || '';
+          let logoId = limpiarLink(rawLogo);
+          if(logoId) {
+            document.getElementById('contenedorLogoNavbar').innerHTML = `<img src="https://drive.google.com/thumbnail?id=${logoId}&sz=w300" alt="Logotipo" class="logo-marca">`;
+          }
+        }
+
+        inventario = dataProd.productos || dataProd.producto || [];
+        socios = dataSoc.sociosVerificados || dataSoc.sociosVerificado || [];
+
+        pintarHTML(inventario);
+        renderizarSocios(socios);
+        generarMenuChecks(inventario);
+      } catch (err) {
+        document.getElementById('catalogo').innerHTML = `<div class="col-12 text-center text-danger fw-bold py-5">Error al conectar con la API: ${err.message}</div>`;
+      }
+    };
+
+    function limpiarLink(url) {
+      var s = String(url || "").trim();
+      if(s.includes("id=")) return s.split("id=")[1].split("&")[0];
+      if(s.includes("/d/")) return s.split("/d/")[1].split("/")[0];
+      return s;
+    }
+
+    function darFormatoDinero(cantidad) {
+      let num = parseFloat(String(cantidad).replace(/[^0-9.]/g, ''));
+      if (isNaN(num)) return cantidad;
+      return '$' + num.toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function renderizarSocios(listaSocios) {
+      const contenedor = document.getElementById('listaSociosModal');
+      if (!listaSocios || listaSocios.length === 0) {
+        contenedor.innerHTML = '<p class="text-center text-muted fw-bold py-3">No hay socios registrados.</p>';
+        return;
+      }
+      let html = '';
+      listaSocios.forEach(s => {
+        let valores = Object.values(s);
+        let fotoId = limpiarLink(s.foto || s.imagen || valores[1] || '');
+        let fotoUrl = fotoId ? 'https://drive.google.com/thumbnail?id=' + fotoId + '&sz=w1000' : 'https://via.placeholder.com/500?text=Socio';
+        let nombre = s.nombre || valores[2] || 'Socio';
+        let ciudad = s.ciudad || valores[3] || '';
+
+        html += `
+          <div class="socio-modal-card socio-item" data-nombre="${nombre.toLowerCase()}" data-ciudad="${ciudad.toLowerCase()}">
+            <div class="socio-modal-img-container">
+              <img src="${fotoUrl}" class="socio-modal-img" alt="${nombre}" loading="lazy">
+            </div>
+            <div class="p-3 text-center bg-white">
+              <h4 class="fw-bold text-dark mb-1" style="font-size: 1.15rem;">${nombre}</h4>
+              <p class="text-muted mb-2 small"><i class="bi bi-geo-alt-fill text-danger"></i> Distribuidor autorizado en <strong>${ciudad}</strong></p>
+              <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-1.5 fw-bold" style="font-size: 0.8rem;">
+                <i class="bi bi-check-circle-fill"></i> IDENTIDAD VERIFICADA
+              </span>
+            </div>
+          </div>
+        `;
+      });
+      contenedor.innerHTML = html;
+    }
+
+    function filtrarSociosModal() {
+      const texto = document.getElementById('buscadorSocios').value.toLowerCase().trim();
+      document.querySelectorAll('.socio-item').forEach(card => {
+        let match = card.getAttribute('data-nombre').includes(texto) || card.getAttribute('data-ciudad').includes(texto);
+        card.style.display = match ? 'block' : 'none';
+      });
+    }
+
+    function generarMenuChecks(datos) {
+      let lineas = [...new Set(datos.map(p => {
+        let v = Object.values(p);
+        return p.linea || p.categoría || v[6] || 'General';
+      }))];
+      
+      let html = `
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" value="todos" id="check-todos" checked onchange="aplicarFiltros()">
+          <label class="form-check-label fw-bold" for="check-todos">Todos (${datos.length})</label>
+        </div>
+        <hr class="my-2">
+      `;
+      lineas.forEach((l, index) => {
+        let count = datos.filter(p => {
+          let v = Object.values(p);
+          return (p.linea || p.categoría || v[6] || 'General') === l;
+        }).length;
+        html += `
+          <div class="form-check mb-1">
+            <input class="form-check-input check-filtro" type="checkbox" value="${l}" id="check-${index}" onchange="aplicarFiltros()">
+            <label class="form-check-label small" for="check-${index}">${l} (${count})</label>
+          </div>
+        `;
+      });
+      document.getElementById('menuFiltrosDinamicos').innerHTML = html;
+    }
+
+    function aplicarFiltros() {
+      const chkTodos = document.getElementById('check-todos');
+      const checks = document.querySelectorAll('.check-filtro');
+      const textoBuscador = document.getElementById('buscador').value.toLowerCase();
+      let seleccionados = Array.from(checks).filter(c => c.checked).map(c => c.value);
+
+      if (seleccionados.length === 0) chkTodos.checked = true;
+      else chkTodos.checked = false;
+
+      let filtrados = inventario.filter(prod => {
+        let valores = Object.values(prod);
+        let nombreProd = String(prod.nombre || prod.producto || valores[2] || '').toLowerCase();
+        let catProd = String(prod.linea || prod.categoría || valores[6] || 'General');
+        let coincideTexto = nombreProd.includes(textoBuscador);
+        let coincideCategoria = chkTodos.checked || seleccionados.includes(catProd);
+        return coincideTexto && coincideCategoria;
+      });
+
+      pintarHTML(filtrados);
+    }
+
+    function pintarHTML(lista) {
+      const contenedor = document.getElementById('catalogo');
+      if (!lista || lista.length === 0) {
+        contenedor.innerHTML = '<div class="col-12 text-center py-5 fw-bold text-muted">No hay productos disponibles.</div>';
+        return;
+      }
+      let html = '';
+      lista.forEach(prod => {
+        let valores = Object.values(prod);
+        let rawImg = prod.imagen || prod.foto || prod.url || valores[1] || '';
+        let imgId = limpiarLink(rawImg);
+        let imgUrl = imgId ? 'https://drive.google.com/thumbnail?id=' + imgId + '&sz=w500' : 'https://via.placeholder.com/400?text=Sin+Foto';
+        
+        let nombre = prod.nombre || prod.producto || valores[2] || 'Sin nombre';
+        let detalles = prod.detalles || prod.descripcion || valores[3] || '';
+        let par = darFormatoDinero(prod.precioPar || prod.precio || valores[4] || 0);
+        let bulto = darFormatoDinero(prod.precioBulto || valores[5] || 0);
+        let msj = `Hola, quiero apartar bultos del modelo: ${nombre}. Inversión: ${bulto}.`;
+        
+        html += `
+          <div class="col">
+            <div class="card-prod">
+              <div class="img-box">
+                <img src="${imgUrl}" alt="${nombre}" loading="lazy" onerror="this.src='https://via.placeholder.com/400?text=Error+Imagen'">
+              </div>
+              <div class="d-flex flex-column flex-grow-1">
+                <div class="titulo">${nombre}</div>
+                <div class="desc">${detalles}</div>
+                <div class="d-flex align-items-center justify-content-between mb-3 pt-2 border-top">
+                  <div>
+                    <span class="text-muted d-block" style="font-size: 0.6rem; font-weight: 800;">PRECIO / PAR</span>
+                    <span class="precio-par">${par}</span>
+                  </div>
+                  <div class="text-end">
+                    <span class="text-success d-block" style="font-size: 0.6rem; font-weight: 800;">INVERSIÓN BULTO</span>
+                    <span class="precio-bulto-limpio">${bulto}</span>
+                  </div>
+                </div>
+                <button class="btn-wa-limpio" onclick="window.open('https://wa.me/520000000000?text=${encodeURIComponent(msj)}', '_blank')">
+                  <i class="bi bi-whatsapp fs-5"></i> APARTAR BULTOS
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      contenedor.innerHTML = html;
+    }
+  </script>
 </body>
 </html>
