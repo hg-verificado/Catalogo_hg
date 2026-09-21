@@ -1,0 +1,16 @@
+{
+  "productos": [
+    {
+      "nombre": "Producto de Ejemplo 1",
+      "descripcion": "Descripción corta de tu producto.",
+      "precio": "$150.00"
+    }
+  ],
+  "vendedores": [
+    {
+      "nombre": "Juan Pérez",
+      "zona": "Zona Centro",
+      "telefono": "5512345678"
+    }
+  ]
+}
